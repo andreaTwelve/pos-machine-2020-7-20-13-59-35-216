@@ -1,0 +1,31 @@
+1.printReceipt(barcodes)
+P：10min
+D: 11min
+C: 打印的结果跟输出的结果不一样，输出的是整个字符串，但是我自己是打印每一行后面加个\n；
+A：从expected出发，实际输出的是字符串；
+
+2.calculateItemQuantity(barcodes)
+P：10min
+D: 8min
+C: 判断当前元素是否跟已经对比的元素相等
+A：学习reduce语法
+
+3.decodeBarcodes(items, itemInfo)
+P：40min
+D: 50min
+C: foreach语法遍历对象和数组搞混了
+A：花时间学习遍历对象和数组的方法，并学习如何取数组和对象的key和value。
+
+4.itemInfo()
+P：5min
+D: 5min
+
+5.totalPrice(itemList)
+P：3min
+D: 3min
+
+6.printBarcode(barcodeList)
+P：15min
+D: 20min
+C: 实际输出的值与期待的值不同
+A：对应每一行的代码后面加个console.log，逐步判断。
