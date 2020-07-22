@@ -10,32 +10,35 @@ function printReceipt(barcodes) {
 
     let quantityObj = calculateItemQuantity(barcodes);
     let barcodeList = decodeBarcodes(quantityObj, itemInfo());
-    printBarcode(barcodeList);
+    printReceiptByBarcode(barcodeList);
 }
 
+//TODO
 function totalPrice(itemList) {
     let total = 0;
     for (let i in itemList) {
         total += itemList[i].subTotal;
     }
+    
     return total;
 }
 
-function printBarcode(barcodeList) {
+//TODO
+function printReceiptByBarcode(barcodeList) {
     if (barcodeList.length > 0) {
         let str = '\n';
         let total = totalPrice(barcodeList);
         str += '***<store earning no money>Receipt ***\n';
         for (let i in barcodeList) {
-            let name = 'Name: ' + barcodeList[i].name + ',';
-            let quantity = ' Quantity: ' + barcodeList[i].quantity + ',';
-            let price = ' Unit price: ' + barcodeList[i].price + ' (yuan),';
-            let subTotal = ' Subtotal: ' + barcodeList[i].subTotal + ' (yuan)';
+            let name = `Name: ${ barcodeList[i].name }, `;
+            let quantity = `Quantity: ${barcodeList[i].quantity}, `;
+            let price = `Unit price: ${ barcodeList[i].price } (yuan), `;
+            let subTotal = `Subtotal: ${ barcodeList[i].subTotal} (yuan)`;
             str += name + quantity + price + subTotal + '\n';
         }
 
         str += '----------------------\n';
-        str += 'Total: ' + total + ' (yuan)\n';
+        str += `Total: ${ total } (yuan)\n`;
         str += '**********************';
         console.log(str);
     }
@@ -57,11 +60,9 @@ function calculateItemQuantity(barcodes) {
     return countedQuantity;
 }
 
-//筛选出跟订单信息相同的item
+//筛选出跟订单信息相同的item 
+//TODO
 function decodeBarcodes(items, itemInfo) {
-    // let itemList = items.filter(item => {
-    //     return
-    // })
 
     let itemList = [];
 
@@ -75,26 +76,17 @@ function decodeBarcodes(items, itemInfo) {
 
     //console.log(items, itemInfo);
 
-    for (let itemKey in items) {
-        //console.log(itemKey);
-        for (let i = 0; i < itemInfo.length; i++) {
-            if (itemKey === itemInfo[i].barcode) {
-                let obj = {};
-                obj.name = itemInfo[i].name;
-                obj.quantity = items[itemKey];
-                obj.price = itemInfo[i].price;
-                obj.subTotal = obj.quantity * obj.price;
-                itemList.push(obj);
-            }
+    Object.keys(items).forEach( itemKey => {
+        let item = itemInfo.find(item => { //find the first value suitable for condition
+            return itemKey === item.barcode;
+        })
 
-
-            // if (itemKey === itemInfo[itemIKey].name) {
-            //     let obj = {};
-            //     obj.name = itemKey;
-            //
-            // }
-        }
+        delete item.barcode;
+        item.quantity = items[itemKey];
+        item.subTotal = item.quantity * item.price;
+        itemList.push(item);
     }
+    )
 
     return itemList;
 }
